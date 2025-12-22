@@ -48,10 +48,13 @@ if __name__ == "__main__":
     near = offline_near_Selector(
         candidate_path="OpenDCAI/DataFlex-selector-openhermes-10w", # split = train
         query_path="OpenDCAI/DataFlex-selector-openhermes-10w", # split = vaildation
-        
-        # If you want to use vllm,please add "vllm:" before model's name
-        # Otherwise it automatically use sentence-transfromer
-        embed_model="vllm:Qwen/Qwen3-Embedding-0.6B",
+        # It automatically try vllm first, then sentence-transformers
+        embed_model="Qwen/Qwen3-Embedding-0.6B",
+        # support method:
+        #auto(It automatically try vllm first, then sentence-transformers),
+        #vllm,
+        #sentence-transformer
+        embed_method= "auto",
         batch_size=32,
         save_indices_path="top_indices.npy",
         max_K=1000,
@@ -61,7 +64,7 @@ if __name__ == "__main__":
        
 ```
 
-> **注意**：此处的 `model_name` 用于将**tokenized**后的文本进一步编码为**句向量**（例如 512 维），支持vllm和sentence-transformer 推理。
+> **注意**：此处的 `model_name` 用于将**tokenized**后的文本进一步编码为**句向量**（例如 1024 维），支持vllm和sentence-transformer 推理。
 
 **最终保存为每个query的max_K个最邻近训练数据的索引矩阵 （ N ,max_K ）**
 

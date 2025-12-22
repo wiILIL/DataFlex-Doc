@@ -77,12 +77,14 @@ Modify training set, embedding model, and parameters inside
 ```python
 if __name__ == "__main__":
     tsds = offline_tsds_Selector(
-        candidate_path="OpenDCAI/DataFlex-selector-openhermes-10w", # training set
-        query_path="OpenDCAI/DataFlex-selector-openhermes-10w",     # validation set
-
-        # If you want to use vllm, please add "vllm:" before the model name
-        # Otherwise it automatically uses sentence-transformer
-        embed_model="vllm:Qwen/Qwen3-Embedding-0.6B", # embedding model
+        candidate_path="OpenDCAI/DataFlex-selector-openhermes-10w",
+        query_path="OpenDCAI/DataFlex-selector-openhermes-10w",
+        embed_model="Qwen/Qwen3-Embedding-0.6B",
+        # support method:
+        #auto(It automatically try vllm first, then sentence-transformers),
+        #vllm,
+        #sentence-transformer
+        embed_method="auto",
         batch_size=32,
         save_probs_path="tsds_probs.npy",
         max_K=5000,
@@ -94,7 +96,7 @@ if __name__ == "__main__":
     tsds.selector()
 ```
 
-Note: model_name is used to encode the already-tokenized text into sentence embeddings (e.g., 512-dim), supporting both vLLM and sentence-transformer inference.
+Note: model_name is used to encode the already-tokenized text into sentence embeddings (e.g., 1024-dim), supporting both vLLM and sentence-transformer inference.
 
 Output: a sampling probability for each training sample.
 ---

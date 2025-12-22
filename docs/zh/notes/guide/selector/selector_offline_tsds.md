@@ -76,12 +76,14 @@ pip install faiss-cpu vllm sentence-transformer
 ```python
 if __name__ == "__main__":
     tsds = offline_tsds_Selector(
-        candidate_path="OpenDCAI/DataFlex-selector-openhermes-10w",#训练集
-        query_path="OpenDCAI/DataFlex-selector-openhermes-10w",#验证集
-
-        # If you want to use vllm,please add "vllm:" before model's name
-        # Otherwise it automatically use sentence-transfromer
-        embed_model="vllm:Qwen/Qwen3-Embedding-0.6B",#编码模型
+        candidate_path="OpenDCAI/DataFlex-selector-openhermes-10w",
+        query_path="OpenDCAI/DataFlex-selector-openhermes-10w",
+        embed_model="Qwen/Qwen3-Embedding-0.6B",
+        # support method:
+        #auto(It automatically try vllm first, then sentence-transformers),
+        #vllm,
+        #sentence-transformer
+        embed_method="auto",
         batch_size=32,
         save_probs_path="tsds_probs.npy",
         max_K=5000,
@@ -94,7 +96,7 @@ if __name__ == "__main__":
        
 ```
 
-> **注意**：此处的 `model_name` 用于将**tokenized**后的文本进一步编码为**句向量**（例如 512 维），支持vllm和sentence-transformer 推理。
+> **注意**：此处的 `model_name` 用于将**tokenized**后的文本进一步编码为**句向量**（例如 1024 维），支持vllm和sentence-transformer 推理。
 
 **最终保存为每个训练样本的采样概率**
 

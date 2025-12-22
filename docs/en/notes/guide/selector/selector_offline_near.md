@@ -53,10 +53,13 @@ if __name__ == "__main__":
     near = offline_near_Selector(
         candidate_path="OpenDCAI/DataFlex-selector-openhermes-10w", # split = train
         query_path="OpenDCAI/DataFlex-selector-openhermes-10w", # split = vaildation
-        
-        # If you want to use vllm,please add "vllm:" before model's name
-        # Otherwise it automatically use sentence-transfromer
-        embed_model="vllm:Qwen/Qwen3-Embedding-0.6B",
+        # It automatically try vllm first, then sentence-transformers
+        embed_model="Qwen/Qwen3-Embedding-0.6B",
+        # support method:
+        #auto(It automatically try vllm first, then sentence-transformers),
+        #vllm,
+        #sentence-transformer
+        embed_method= "auto",
         batch_size=32,
         save_indices_path="top_indices.npy",
         max_K=1000,
@@ -65,7 +68,7 @@ if __name__ == "__main__":
     near.selector()
 ```
 
-Note: model_name is used to encode the already-tokenized text into sentence embeddings (e.g., 512-dim), supporting both vLLM and sentence-transformer inference.
+Note: model_name is used to encode the already-tokenized text into sentence embeddings (e.g., 1024-dim), supporting both vLLM and sentence-transformer inference.
 
 Output: save as the indices matrix that contain the max_K close data for each query
 ---
